@@ -309,4 +309,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initFooter();
   initFadeIn();
   applyTranslations(currentLang);
+  console.log("Inicilizado");
 });
