@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "@/lib/i18n/I18nProvider";
@@ -24,7 +25,7 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-container items-center justify-between px-6 py-3">
         <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
-          <img src="/favicon.svg" alt="Azul Península" className="h-8 w-8" />
+          <Image src="/favicon.svg" alt="Azul Península" width={32} height={32} className="h-8 w-8" />
           <span className="flex flex-col leading-tight">
             <span className="text-xs uppercase tracking-wide text-text-light">
               Fraccionamiento
