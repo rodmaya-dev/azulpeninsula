@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================
+   AZUL PENÍNSULA — Design tokens
+   Mismos valores que el sitio original en css/styles.css.
+   Tailwind (tailwind.config.ts) solo los referencia — esta sigue
+   siendo la única fuente de verdad de la identidad visual.
+   ========================================= */
+:root {
+  --azul-deep: #0a1628;
+  --azul-mid: #1a3a5c;
+  --azul-accent: #2a6fa8;
+  --azul-light: #5ba3d0;
+  --sand: #e8dcc8;
+  --sand-light: #f5f0e8;
+  --white: #ffffff;
+  --text-dark: #0d1f35;
+  --text-mid: #4a6070;
+  --text-light: #8aa0b0;
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "DM Sans", sans-serif;
+
+  --radius: 6px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 2px 12px rgba(10, 22, 40, 0.08);
+  --shadow-md: 0 8px 32px rgba(10, 22, 40, 0.14);
+  --shadow-lg: 0 20px 60px rgba(10, 22, 40, 0.2);
+
+  --max-width: 1200px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--text-dark);
+  background: var(--white);
+}
+
+/* Respeta la preferencia de movimiento reducido del sistema operativo. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

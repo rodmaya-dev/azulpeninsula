@@ -1,95 +1,70 @@
-# Azul Península — Sitio Web
+# Azul Península — Next.js
 
-Sitio web oficial del fraccionamiento Azul Península.
+Migración del sitio de Azul Península (antes HTML + CSS + JS vanilla) a
+Next.js 15 (App Router) + TypeScript + Tailwind. Este es el **andamiaje base
++ modelo de datos** — el primer paso del roadmap.
 
-## Estructura
+## Cómo correrlo
 
-```
-azul-peninsula/
-├── index.html              ← Única página en raíz
-├── favicon.svg             ← Ícono del sitio
-├── README.md
-├── pages/                  ← Todas las páginas internas
-│   ├── about.html          ← Nosotros / Administración
-│   ├── listings.html       ← Catálogo de departamentos
-│   ├── contact.html        ← Formulario y datos de contacto
-│   └── asesores.html       ← Directorio de asesores y reseñas
-├── components/             ← Componentes reutilizables
-│   ├── footer.html         ← Footer para index.html (rutas raíz)
-│   └── footer-pages.html   ← Footer para pages/ (rutas con ../)
-├── css/
-│   └── styles.css          ← Estilos globales
-├── js/
-│   └── main.js             ← Navbar, idioma ES/EN, footer dinámico, animaciones
-└── img/                    ← Todas las imágenes
-    ├── hero/               ← Foto principal del fraccionamiento
-    ├── directiva/          ← Fotos de los miembros
-    ├── departamentos/      ← Fotos por departamento
-    └── icons/              ← Íconos e imágenes UI
+Necesitas **Node.js ≥ 20.9** (requisito de Next.js 16 — revisa con `node -v`).
+
+```bash
+npm install
+npm run dev
 ```
 
-## Cómo usar
+> Nota (ago 2026): el proyecto corre sobre Next.js 16.3 (LTS activo) y
+> React 19.2. Si vienes de una instalación anterior con Next 14, borra
+> `node_modules` y `package-lock.json` antes de `npm install` para evitar
+> versiones mezcladas.
 
-1. Clona el repositorio
-2. Abre `index.html` en tu navegador — no necesitas servidor
-3. Publica en GitHub Pages activando el repositorio en Settings → Pages
+Abre http://localhost:3000. El botón ES/EN en el navbar ya funciona
+(mismo mecanismo de `localStorage` que tenías, ahora vía Context de React).
 
-## Pendientes antes de publicar
+## Qué incluye este paso
 
-### Datos reales
+- **Configuración base**: `next.config.mjs`, `tsconfig.json` (strict +
+  `noUncheckedIndexedAccess`), Tailwind, ESLint, Prettier.
+- **Identidad visual portada 1:1**: los mismos tokens de color/tipografía
+  que tenías en `css/styles.css` viven ahora en `src/app/globals.css`, y
+  Tailwind solo los referencia (`tailwind.config.ts`). Cormorant Garamond +
+  DM Sans se cargan con `next/font/google` en vez del `@import` a Google
+  Fonts — evita una petición externa y elimina el parpadeo de fuente.
+- **i18n**: `src/lib/i18n/` — mismo diccionario ES/EN que tenías en
+  `main.js`, ahora vía Context + hook `useTranslations()`. Se mantiene
+  `localStorage` por ahora (ver comentario en `I18nProvider.tsx` sobre por
+  qué no usamos `next-intl` con rutas `/es /en` todavía: eso lo resolvemos
+  junto con el trabajo de SEO de Departamentos, para no tocar el layout dos
+  veces).
+- **Layout**: `Navbar` (con menú móvil) y `Footer`, con datos reales de
+  contacto portados de `components/footer.html`.
+- **Modelo de datos tipado** (`src/types/`, `src/data/`):
+  - `Ente` — los 4 entes de "Nosotros" con `funciones` para el modal (ver
+    roadmap paso 3) y sus miembros reales.
+  - `Departamento` — pensado para convertirse casi sin cambios en un
+    `model` de Prisma cuando lleguemos a Node.js/Postgres. `asesorId` ya es
+    la FK que hará posible que cada asesor suba solo sus propias fotos.
+  - `Asesor` — sujeto de esa relación.
+  - Todos los arrays de datos están comentados explicando su equivalente
+    en PL/SQL y su futuro reemplazo por consultas Prisma.
 
-- [x] Reemplazar "Nombre Apellido" con los miembros reales de la mesa directiva
-- [x] Reemplazar "Nombre Apellido" con los miembros del consejo de vigilancia
-- [x] Actualizar teléfono y correo en footer y contact.html
-- [x] Actualizar dirección real en contact.html
+## Qué NO incluye todavía (siguientes pasos del roadmap)
 
-### Imágenes
+1. Página "Nosotros" con el organigrama clicable + modales de funciones
+2. Página "Departamentos" con carrusel (hasta 5 imágenes) + rutas
+   `/departamentos/[slug]` + JSON-LD para SEO
+3. Formulario de contacto con Resend + validación con Zod
+4. Animaciones (Framer Motion) y hero con imagen de fondo
 
-- [ ] Agregar foto del fraccionamiento (hero de index.html)
-- [ ] Agregar fotos de los miembros de la administración
-- [ ] Agregar fotos de cada departamento en listings.html
+## Nota de seguridad (ago 2026)
 
-### Formulario
+Next.js 14 llegó a su End-of-Life en octubre 2025 — dejó de recibir
+parches. El proyecto se actualizó a Next.js 16.3 (LTS activo) + React 19.2,
+y el lint pasó al flat config de ESLint 9 (`eslint.config.mjs`), ya que
+`next lint` se eliminó en Next 16. Revisa `eslint.config.mjs` en vez de
+`.eslintrc.json` si necesitas ajustar reglas.
 
-- [x] Crear cuenta en [Formspree.io](https://formspree.io) (gratis)
-- [x] Reemplazar `YOUR_FORM_ID` en contact.html con tu ID real
+## Variables de entorno
 
-### WhatsApp
-
-- [x] Reemplazar `52XXXXXXXXXX` en contact.html con el número real
-
-### Mapa
-
-- [x] Ir a Google Maps → Compartir → Insertar mapa → copiar el iframe
-- [x] Reemplazar el `<div class="map-placeholder">` en contact.html
-
-### Departamentos
-
-- [ ] Duplicar las tarjetas en listings.html para agregar departamentos
-- [ ] Actualizar precios, m², pisos y amenidades de cada uno
-
-## Funcionalidades incluidas
-
-- ✅ Navbar con scroll effect
-- ✅ Switch de idioma ES / EN (persiste entre páginas via localStorage)
-- ✅ Menú hamburguesa para móvil
-- ✅ Animaciones de entrada con IntersectionObserver
-- ✅ Filtro de departamentos por disponibilidad (JS puro)
-- ✅ Formulario de contacto async con Formspree
-- ✅ CTA de WhatsApp con mensaje predefinido
-- ✅ Diseño responsivo (desktop → tablet → móvil)
-
-## Tecnologías
-
-- HTML5 semántico
-- CSS3 (variables, grid, flexbox, animaciones)
-- JavaScript vanilla (sin frameworks)
-- Google Fonts (Cormorant Garamond + DM Sans)
-- Formspree (formulario sin backend)
-
-## Fase 2
-
-- Panel de administración con Node.js + Express
-- Base de datos (PostgreSQL) para gestionar departamentos dinámicamente
-- Sistema de citas con notificaciones automáticas
-- Login para administradores
+Copia `.env.example` a `.env.local`. Las variables de Resend y base de
+datos están comentadas — se activan en sus respectivos pasos.
