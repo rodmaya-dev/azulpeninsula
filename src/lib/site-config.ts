@@ -12,8 +12,18 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://azulpeninsula.vercel.app",
   description:
     "Fraccionamiento Azul Península en Puerto Vallarta, Jalisco. Departamentos en renta y venta, administración transparente y atención directa con asesores.",
-  telefono: "+523223817651",
+
+  // Versión limpia con + → se usa en JSON-LD y en tel:
+  telefono: "+523224580603",
+  
+  // Solo dígitos → se usa para WhatsApp
+  telefonoWhatsApp: "523224580603",
+  
+  // Versión legible → se muestra al usuario
+  telefonoDisplay: "+52 (322) 458-0603",
+
   email: "direccion.azul@outlook.com",
+
   address: {
     streetAddress: "Av. Laurel Real SN",
     addressLocality: "Puerto Vallarta",

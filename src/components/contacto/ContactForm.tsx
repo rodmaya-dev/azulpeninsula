@@ -1,13 +1,67 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { enviarContacto, type ContactoState } from "@/app/actions/contacto";
-import { MOTIVO_LABEL } from "@/lib/validations/contacto";
+import {
+  contactoSchema,
+  MOTIVO_LABEL,
+  type MotivoContacto,
+} from "@/lib/validations/contacto";
 
 const ESTADO_INICIAL: ContactoState = { status: "idle" };
 
+interface FormValues {
+  nombre: string;
+  email: string;
+  telefono: string;
+  motivo: MotivoContacto;
+  mensaje: string;
+}
+
+const VALORES_INICIALES: FormValues = {
+  nombre: "",
+  email: "",
+  telefono: "",
+  motivo: "general",
+  mensaje: "",
+};
+
 export function ContactForm() {
   const [state, formAction, isPending] = useActionState(enviarContacto, ESTADO_INICIAL);
+  const [valores, setValores] = useState<FormValues>(VALORES_INICIALES);
+  const [tocado, setTocado] = useState<Partial<Record<keyof FormValues, boolean>>>({});
+
+  // Mismo schema que usa el servidor (src/lib/validations/contacto.ts) —
+  // así "qué es un email válido" se define en un solo lugar, nunca dos
+  // reglas separadas que con el tiempo se desincronizan.
+  const resultado = contactoSchema.safeParse(valores);
+  const erroresCliente: Partial<Record<keyof FormValues, string>> = {};
+  if (!resultado.success) {
+    for (const issue of resultado.error.issues) {
+      const campo = issue.path[0];
+      if (typeof campo === "string" && !erroresCliente[campo as keyof FormValues]) {
+        erroresCliente[campo as keyof FormValues] = issue.message;
+      }
+    }
+  }
+  const esValido = resultado.success;
+
+  const actualizarCampo = <K extends keyof FormValues>(campo: K, valor: FormValues[K]) => {
+    setValores((prev) => ({ ...prev, [campo]: valor }));
+  };
+
+  const marcarTocado = (campo: keyof FormValues) => {
+    setTocado((prev) => ({ ...prev, [campo]: true }));
+  };
+
+  // Un campo muestra su error si el usuario ya interactuó con él, O si ya
+  // hubo un intento de envío (state.status === "error") — así no le
+  // marcamos "Nombre inválido" en rojo antes de que haya escrito nada.
+  const yaIntentoEnviar = state.status === "error";
+  const errorVisible = (campo: keyof FormValues) =>
+    tocado[campo] || yaIntentoEnviar
+      ? (erroresCliente[campo] ?? state.fieldErrors?.[campo])
+      : undefined;
 
   return (
     <form action={formAction} className="space-y-5" noValidate>
@@ -25,12 +79,13 @@ export function ContactForm() {
           id="nombre"
           name="nombre"
           type="text"
-          required
+          value={valores.nombre}
+          onChange={(e) => actualizarCampo("nombre", e.target.value)}
+          onBlur={() => marcarTocado("nombre")}
+          aria-invalid={Boolean(errorVisible("nombre"))}
           className="mt-1 w-full rounded border border-black/10 px-3 py-2 text-sm focus:border-azul-accent focus:outline-none"
         />
-        {state.fieldErrors?.nombre && (
-          <p className="mt-1 text-xs text-red-600">{state.fieldErrors.nombre}</p>
-        )}
+        <span className="mt-1 block text-xs text-red-600">{errorVisible("nombre")}</span>
       </div>
 
       <div>
@@ -41,12 +96,13 @@ export function ContactForm() {
           id="email"
           name="email"
           type="email"
-          required
+          value={valores.email}
+          onChange={(e) => actualizarCampo("email", e.target.value)}
+          onBlur={() => marcarTocado("email")}
+          aria-invalid={Boolean(errorVisible("email"))}
           className="mt-1 w-full rounded border border-black/10 px-3 py-2 text-sm focus:border-azul-accent focus:outline-none"
         />
-        {state.fieldErrors?.email && (
-          <p className="mt-1 text-xs text-red-600">{state.fieldErrors.email}</p>
-        )}
+        <span className="mt-1 block text-xs text-red-600">{errorVisible("email")}</span>
       </div>
 
       <div>
@@ -57,6 +113,8 @@ export function ContactForm() {
           id="telefono"
           name="telefono"
           type="tel"
+          value={valores.telefono}
+          onChange={(e) => actualizarCampo("telefono", e.target.value)}
           className="mt-1 w-full rounded border border-black/10 px-3 py-2 text-sm focus:border-azul-accent focus:outline-none"
         />
       </div>
@@ -68,8 +126,8 @@ export function ContactForm() {
         <select
           id="motivo"
           name="motivo"
-          required
-          defaultValue="general"
+          value={valores.motivo}
+          onChange={(e) => actualizarCampo("motivo", e.target.value as MotivoContacto)}
           className="mt-1 w-full rounded border border-black/10 bg-white px-3 py-2 text-sm focus:border-azul-accent focus:outline-none"
         >
           {Object.entries(MOTIVO_LABEL).map(([value, label]) => (
@@ -88,18 +146,19 @@ export function ContactForm() {
           id="mensaje"
           name="mensaje"
           rows={5}
-          required
+          value={valores.mensaje}
+          onChange={(e) => actualizarCampo("mensaje", e.target.value)}
+          onBlur={() => marcarTocado("mensaje")}
+          aria-invalid={Boolean(errorVisible("mensaje"))}
           className="mt-1 w-full rounded border border-black/10 px-3 py-2 text-sm focus:border-azul-accent focus:outline-none"
         />
-        {state.fieldErrors?.mensaje && (
-          <p className="mt-1 text-xs text-red-600">{state.fieldErrors.mensaje}</p>
-        )}
+        <span className="mt-1 block text-xs text-red-600">{errorVisible("mensaje")}</span>
       </div>
 
       <button
         type="submit"
-        disabled={isPending}
-        className="rounded bg-azul-accent px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-azul-mid disabled:opacity-60"
+        disabled={!esValido || isPending}
+        className="rounded bg-azul-accent px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-azul-mid disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isPending ? "Enviando…" : "Enviar mensaje"}
       </button>

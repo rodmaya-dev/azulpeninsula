@@ -31,9 +31,16 @@ export default function ContactoPage() {
             <div>
               <dt className="text-xs uppercase tracking-wide text-text-light">Teléfono</dt>
               <dd className="mt-1 text-text-dark">
-                <a href={`tel:${siteConfig.telefono}`} className="hover:text-azul-accent">
-                  {siteConfig.telefono}
-                </a>
+                <a
+				  href={`https://wa.me/${siteConfig.telefonoWhatsApp}?text=${encodeURIComponent(
+					"Hola, vi su página web de Azul Península y me gustaría recibir más información."
+				  )}`}
+				  target="_blank"
+				  rel="noopener noreferrer"
+				  className="hover:text-azul-accent"
+				>
+				  {siteConfig.telefonoDisplay}
+				</a>
               </dd>
             </div>
             <div>
