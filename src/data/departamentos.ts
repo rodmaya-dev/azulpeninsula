@@ -16,7 +16,7 @@ export const departamentos: Departamento[] = [
     precio: 9500,
     recamaras: 2,
     m2: 59,
-    piso: 1,
+    piso: 0,
     amenidades: ["A/C", "Cocina equipada", "Estacionamiento", "Patio"],
     // Único departamento con foto real por ahora. El carrusel soporta hasta
     // 5; el resto de arrays queda vacío hasta tener las fotos de cada uno.
@@ -46,7 +46,7 @@ export const departamentos: Departamento[] = [
     precio: 12500,
     recamaras: 2,
     m2: 51,
-    piso: 0,
+    piso: 1,
     amenidades: ["A/C", "Cocina equipada", "Amueblado", "Estacionamiento", "Closets"],
     imagenes: [],
     asesorId: "efrain-pineda",

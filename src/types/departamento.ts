@@ -29,6 +29,11 @@ export type EstatusDepartamento = "disponible" | "rentado" | "vendido";
 
 export type TipoOperacion = "renta" | "venta";
 
+/** Tope de fotos que el carrusel muestra por departamento. Cambiar este
+ *  número es la única línea que tocar si el máximo cambia — tanto si se
+ *  reduce como si se decide permitir más adelante. */
+export const MAX_IMAGENES_CARRUSEL = 6;
+
 export interface Departamento {
   /** Identificador único. Hoy es un string manual; en DB será un cuid/uuid. */
   id: string;
@@ -44,7 +49,7 @@ export interface Departamento {
   piso: number;
   amenidades: string[];
   /**
-   * Hasta 5 rutas de imagen para el carrusel. Hoy apuntan a /public/img;
+   * Hasta 6 rutas de imagen para el carrusel. Hoy apuntan a /public/img;
    * en la fase con carga por asesor serán URLs de un storage externo.
    */
   imagenes: string[];

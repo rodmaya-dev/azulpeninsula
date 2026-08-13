@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { entes } from "@/data/entes";
 import { OrgChart } from "@/components/organizacion/OrgChart";
 import { TeamSection } from "@/components/organizacion/TeamSection";
+import { MisionVisionValores } from "@/components/organizacion/MisionVisionValores";
+import { Principios } from "@/components/organizacion/Principios";
 
 export const metadata: Metadata = {
   title: "Nosotros",
@@ -45,6 +47,8 @@ export default function NosotrosPage() {
       {entes.map((ente) => (
         <TeamSection key={ente.id} ente={ente} />
       ))}
+      <MisionVisionValores />
+      <Principios />
     </>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { MAX_IMAGENES_CARRUSEL } from "@/types/departamento";
 
 interface CarouselProps {
   imagenes: string[];
