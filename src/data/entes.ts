@@ -8,9 +8,9 @@ export const entes: Ente[] = [
       "El órgano máximo de decisión del fraccionamiento, integrado por todos los propietarios.",
     funciones: [
       "Aprobar el presupuesto anual y las cuotas de mantenimiento",
-      "Elegir y remover a los miembros de la Mesa Directiva y el Consejo de Vigilancia",
+      "Elegir y remover a los miembros del Consejo de Vigilancia",      
+      "Autorizar obras y gastos especiales",
       "Aprobar modificaciones al reglamento interno",
-      "Autorizar obras y gastos extraordinarios",
     ],
     miembros: [],
   },
