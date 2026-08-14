@@ -1,16 +1,9 @@
+import { Reveal } from "@/components/ui/Reveal";
+
 const PRINCIPIOS = [
-  {
-    titulo: "Servir a la comunidad",
-    texto: "Nuestra labor es servir a los vecinos y trabajar por su bienestar, sin buscar reconocimiento personal.",
-  },
-  {
-    titulo: "Actuar con integridad",
-    texto: "Tomar decisiones y actuar con integridad, ética y transparencia en todo momento.",
-  },
-  {
-    titulo: "Mantener informada a la comunidad",
-    texto: "Mantener a los vecinos informados sobre las decisiones y acciones de la Asociación, abiertos a sus sugerencias.",
-  },
+  { titulo: "Servir a la comunidad", texto: "Nuestra labor es servir a los vecinos y trabajar por su bienestar, sin buscar reconocimiento personal." },
+  { titulo: "Actuar con integridad", texto: "Tomar decisiones y actuar con integridad, ética y transparencia en todo momento." },
+  { titulo: "Mantener informada a la comunidad", texto: "Mantener a los vecinos informados sobre las decisiones y acciones de la Asociación, abiertos a sus sugerencias." },
 ] as const;
 
 export function Principios() {
@@ -25,11 +18,15 @@ export function Principios() {
         </h2>
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {PRINCIPIOS.map((principio) => (
-            <div key={principio.titulo} className="border-l-2 border-azul-accent pl-5">
-              <h4 className="font-display text-lg text-text-dark">{principio.titulo}</h4>
-              <p className="mt-2 text-sm text-text-mid">{principio.texto}</p>
-            </div>
+          {PRINCIPIOS.map((principio, i) => (
+            <Reveal key={principio.titulo} delay={i * 0.1}>
+              <div className="h-full border-l-2 border-azul-accent pl-5">
+                <h4 className="font-display text-lg text-text-dark">
+                  {principio.titulo}
+                </h4>
+                <p className="mt-2 text-sm text-text-mid">{principio.texto}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>

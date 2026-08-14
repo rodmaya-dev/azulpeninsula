@@ -1,4 +1,5 @@
 import type { Ente } from "@/types/ente";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function TeamSection({ ente }: { ente: Ente }) {
   if (ente.miembros.length === 0) return null;
@@ -14,13 +15,12 @@ export function TeamSection({ ente }: { ente: Ente }) {
         </h2>
 
         <ul className="mt-8 grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
-          {ente.miembros.map((miembro) => (
-            <li
-              key={miembro.id}
-              className="border-b border-black/5 pb-4"
-            >
-              <p className="font-medium text-text-dark">{miembro.nombre}</p>
-              <p className="text-sm text-text-light">{miembro.cargo}</p>
+          {ente.miembros.map((miembro, i) => (
+            <li key={miembro.id} className="border-b border-black/5 pb-4">
+              <Reveal delay={Math.min(i * 0.05, 0.3)}>
+                <p className="font-medium text-text-dark">{miembro.nombre}</p>
+                <p className="text-sm text-text-light">{miembro.cargo}</p>
+              </Reveal>
             </li>
           ))}
         </ul>

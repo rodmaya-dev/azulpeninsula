@@ -41,6 +41,39 @@ body {
   background: var(--white);
 }
 
+/* Banner de "Nuestros valores" en Nosotros: desplazamiento continuo de
+   izquierda a derecha. El contenido se duplica una vez en el componente
+   (ver MisionVisionValores.tsx) y esta animación mueve esa fila doble de
+   -50% a 0% — como las dos copias miden lo mismo, el "salto" al reiniciar
+   el loop es invisible, se ve continuo. */
+@keyframes marquee {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* La regla global de arriba (prefers-reduced-motion) deja esta animación
+   corriendo pero comprimida a 0.01ms — en un loop infinito eso se ve como
+   parpadeo constante, peor que no animar. Para esta en particular, mejor
+   apagarla del todo: sin animation, el navegador la deja en su posición
+   base (0%), mostrando el banner estático pero perfectamente legible. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
 /* Respeta la preferencia de movimiento reducido del sistema operativo. */
 @media (prefers-reduced-motion: reduce) {
   html {

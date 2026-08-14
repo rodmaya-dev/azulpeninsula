@@ -5,8 +5,8 @@ export type MotivoContacto = (typeof MOTIVOS_CONTACTO)[number];
 
 export const MOTIVO_LABEL: Record<MotivoContacto, string> = {
   general: "Información general",
-  renta: "Interesado en renta",
-  venta: "Interesado en venta",
+  renta: "Quiero rentar",
+  venta: "Quiero comprar",
   residente: "Soy residente",
 };
 

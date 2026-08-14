@@ -4,6 +4,7 @@ import { OrgChart } from "@/components/organizacion/OrgChart";
 import { TeamSection } from "@/components/organizacion/TeamSection";
 import { MisionVisionValores } from "@/components/organizacion/MisionVisionValores";
 import { Principios } from "@/components/organizacion/Principios";
+import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
   title: "Nosotros",
@@ -38,15 +39,16 @@ export default function NosotrosPage() {
             Toca cualquier ente para ver sus funciones.
           </p>
 
-          <div className="mt-12">
+          <Reveal className="mt-12">
             <OrgChart />
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {entes.map((ente) => (
         <TeamSection key={ente.id} ente={ente} />
       ))}
+
       <MisionVisionValores />
       <Principios />
     </>
