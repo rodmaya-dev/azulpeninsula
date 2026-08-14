@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Departamento, TipoOperacion } from "@/types/departamento";
 import { DepartamentoCard } from "./DepartamentoCard";
+import { Reveal } from "@/components/ui/Reveal";
 
 type Filtro = "todos" | TipoOperacion;
 
@@ -49,8 +50,10 @@ export function CatalogoDepartamentos({
         </p>
       ) : (
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {visibles.map((depto) => (
-            <DepartamentoCard key={depto.id} depto={depto} />
+          {visibles.map((depto, i) => (
+            <Reveal key={depto.id} delay={Math.min(i * 0.08, 0.4)}>
+              <DepartamentoCard depto={depto} />
+            </Reveal>
           ))}
         </div>
       )}

@@ -1,70 +1,35 @@
 # Azul Península — Next.js
 
-Migración del sitio de Azul Península (antes HTML + CSS + JS vanilla) a
-Next.js 15 (App Router) + TypeScript + Tailwind. Este es el **andamiaje base
-+ modelo de datos** — el primer paso del roadmap.
+Sitio web del fraccionamiento Azul Península (Puerto Vallarta, Jalisco).
+Migración completa desde HTML/CSS/JS vanilla a **Next.js 16 (App Router) +
+TypeScript + Tailwind**, con formulario de contacto funcional, catálogo de
+departamentos indexable por Google, y una capa de SEO de marca completa.
+
+## Stack
+
+- **Next.js 16** (App Router, Turbopack) + **React 19**
+- **TypeScript** estricto (`strict`, `noUncheckedIndexedAccess`)
+- **Tailwind CSS** — tokens de marca (colores, tipografía) portados 1:1 del sitio original
+- **Zod** — validación de formularios, compartida entre cliente y servidor
+- **Resend** — envío de correo del formulario de contacto
+- **Framer Motion** — animaciones de entrada al hacer scroll
+- **ESLint 9** (flat config) + Prettier
 
 ## Cómo correrlo
 
-Necesitas **Node.js ≥ 20.9** (requisito de Next.js 16 — revisa con `node -v`).
+Requiere **Node.js ≥ 20.9**.
 
 ```bash
 npm install
 npm run dev
 ```
 
-> Nota (ago 2026): el proyecto corre sobre Next.js 16.3 (LTS activo) y
-> React 19.2. Si vienes de una instalación anterior con Next 14, borra
-> `node_modules` y `package-lock.json` antes de `npm install` para evitar
-> versiones mezcladas.
+`npm run dev` levanta el servidor **y abre automáticamente tu navegador
+preferido** en `http://localhost:3000` en cuanto está listo (configurable
+en `scripts/dev.mjs` — busca `NAVEGADOR_PREFERIDO`). Si prefieres el
+comportamiento normal sin apertura automática, usa `npm run dev:plain`.
 
-Abre http://localhost:3000. El botón ES/EN en el navbar ya funciona
-(mismo mecanismo de `localStorage` que tenías, ahora vía Context de React).
+### Variables de entorno
 
-## Qué incluye este paso
-
-- **Configuración base**: `next.config.mjs`, `tsconfig.json` (strict +
-  `noUncheckedIndexedAccess`), Tailwind, ESLint, Prettier.
-- **Identidad visual portada 1:1**: los mismos tokens de color/tipografía
-  que tenías en `css/styles.css` viven ahora en `src/app/globals.css`, y
-  Tailwind solo los referencia (`tailwind.config.ts`). Cormorant Garamond +
-  DM Sans se cargan con `next/font/google` en vez del `@import` a Google
-  Fonts — evita una petición externa y elimina el parpadeo de fuente.
-- **i18n**: `src/lib/i18n/` — mismo diccionario ES/EN que tenías en
-  `main.js`, ahora vía Context + hook `useTranslations()`. Se mantiene
-  `localStorage` por ahora (ver comentario en `I18nProvider.tsx` sobre por
-  qué no usamos `next-intl` con rutas `/es /en` todavía: eso lo resolvemos
-  junto con el trabajo de SEO de Departamentos, para no tocar el layout dos
-  veces).
-- **Layout**: `Navbar` (con menú móvil) y `Footer`, con datos reales de
-  contacto portados de `components/footer.html`.
-- **Modelo de datos tipado** (`src/types/`, `src/data/`):
-  - `Ente` — los 4 entes de "Nosotros" con `funciones` para el modal (ver
-    roadmap paso 3) y sus miembros reales.
-  - `Departamento` — pensado para convertirse casi sin cambios en un
-    `model` de Prisma cuando lleguemos a Node.js/Postgres. `asesorId` ya es
-    la FK que hará posible que cada asesor suba solo sus propias fotos.
-  - `Asesor` — sujeto de esa relación.
-  - Todos los arrays de datos están comentados explicando su equivalente
-    en PL/SQL y su futuro reemplazo por consultas Prisma.
-
-## Qué NO incluye todavía (siguientes pasos del roadmap)
-
-1. Página "Nosotros" con el organigrama clicable + modales de funciones
-2. Página "Departamentos" con carrusel (hasta 5 imágenes) + rutas
-   `/departamentos/[slug]` + JSON-LD para SEO
-3. Formulario de contacto con Resend + validación con Zod
-4. Animaciones (Framer Motion) y hero con imagen de fondo
-
-## Nota de seguridad (ago 2026)
-
-Next.js 14 llegó a su End-of-Life en octubre 2025 — dejó de recibir
-parches. El proyecto se actualizó a Next.js 16.3 (LTS activo) + React 19.2,
-y el lint pasó al flat config de ESLint 9 (`eslint.config.mjs`), ya que
-`next lint` se eliminó en Next 16. Revisa `eslint.config.mjs` en vez de
-`.eslintrc.json` si necesitas ajustar reglas.
-
-## Variables de entorno
-
-Copia `.env.example` a `.env.local`. Las variables de Resend y base de
-datos están comentadas — se activan en sus respectivos pasos.
+Copia el contenido de `.env.example` a un archivo nuevo `.env.local` (este
+último nunca se sube a git) y rellena tus valores reales:

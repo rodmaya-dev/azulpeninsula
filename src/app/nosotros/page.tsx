@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { entes } from "@/data/entes";
-import { OrgChart } from "@/components/organizacion/OrgChart";
-import { TeamSection } from "@/components/organizacion/TeamSection";
+import { OrganigramaInteractivo } from "@/components/organizacion/OrganigramaInteractivo";
 import { MisionVisionValores } from "@/components/organizacion/MisionVisionValores";
 import { Principios } from "@/components/organizacion/Principios";
 import { Reveal } from "@/components/ui/Reveal";
@@ -36,18 +34,13 @@ export default function NosotrosPage() {
             Estructura organizacional
           </h2>
           <p className="mt-2 max-w-xl text-sm text-text-mid">
-            Toca cualquier ente para ver sus funciones.
+            Toca cualquier ente para conocer más.
           </p>
-
           <Reveal className="mt-12">
-            <OrgChart />
+            <OrganigramaInteractivo />
           </Reveal>
         </div>
       </section>
-
-      {entes.map((ente) => (
-        <TeamSection key={ente.id} ente={ente} />
-      ))}
 
       <MisionVisionValores />
       <Principios />

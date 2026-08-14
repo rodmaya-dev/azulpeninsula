@@ -41,6 +41,7 @@ export const entes: Ente[] = [
       "Vigilar el cumplimiento del reglamento interno",
       "Presentar informes de supervisión a la Asamblea",
       "Atender inconformidades de los residentes de su manzana",
+      "Informar de los avances y acuerdos a los residentes de su manzana",
     ],
     miembros: [
       { id: "erick-gomez", nombre: "C. Erick Gómez", cargo: "Manzana 4" },
@@ -55,12 +56,14 @@ export const entes: Ente[] = [
     id: "management",
     nombre: "Gerencia Operativa",
     descripcion:
-      "Equipo encargado de la operación diaria: mantenimiento, seguridad y atención a residentes.",
+      "Equipo encargado de la operación diaria.",
     funciones: [
       "Coordinar el mantenimiento de áreas comunes",
       "Supervisar al personal de seguridad e intendencia",
       "Atender reportes y solicitudes de los residentes",
       "Ejecutar las decisiones operativas de la Mesa Directiva",
+      "Actualizar los estados de cuenta de cada uno de los propietarios",
+      "Presentar informes financieros",
     ],
     miembros: [
       { id: "eddie-gutierrez", nombre: "Arq. Eddie Gutiérrez", cargo: "Gerente Operativo" },

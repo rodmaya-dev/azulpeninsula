@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/contacto/ContactForm";
 import { siteConfig } from "@/lib/site-config";
+import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 export default function ContactoPage() {
   return (
     <section className="px-6 py-16">
-      <div className="mx-auto grid max-w-container gap-12 lg:grid-cols-[1fr_1.2fr]">
+      <Reveal className="mx-auto grid max-w-container gap-12 lg:grid-cols-[1fr_1.2fr]">
         <div>
           <span className="text-xs font-medium uppercase tracking-wide text-text-light">
             Estamos para ayudarte
@@ -57,7 +58,7 @@ export default function ContactoPage() {
         <div className="rounded-lg border border-black/5 p-6 shadow-sm">
           <ContactForm />
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

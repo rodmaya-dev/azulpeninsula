@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { asesores } from "@/data/asesores";
 import { AsesorCard } from "@/components/asesores/AsesorCard";
+import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
   title: "Asesores",
@@ -21,8 +22,10 @@ export default function AsesoresPage() {
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {asesores.map((asesor) => (
-            <AsesorCard key={asesor.id} asesor={asesor} />
+          {asesores.map((asesor, i) => (
+            <Reveal key={asesor.id} delay={Math.min(i * 0.08, 0.4)}>
+              <AsesorCard asesor={asesor} />
+            </Reveal>
           ))}
         </div>
       </div>

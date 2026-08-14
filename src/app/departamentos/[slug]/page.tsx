@@ -6,6 +6,7 @@ import { asesores } from "@/data/asesores";
 import { Carousel } from "@/components/departamentos/Carousel";
 import { formatPrecio, ESTATUS_LABEL, OPERACION_LABEL } from "@/lib/format";
 import { siteConfig } from "@/lib/site-config";
+import { Reveal } from "@/components/ui/Reveal";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -112,7 +113,7 @@ export default async function DepartamentoDetallePage({ params }: PageProps) {
           ← Volver a Departamentos
         </Link>
 
-        <div className="mt-4 grid gap-10 lg:grid-cols-2">
+        <Reveal className="mt-4 grid gap-10 lg:grid-cols-2">
           <Carousel imagenes={depto.imagenes} alt={depto.titulo} />
 
           <div>
@@ -217,7 +218,7 @@ export default async function DepartamentoDetallePage({ params }: PageProps) {
               </div>
             )}
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
