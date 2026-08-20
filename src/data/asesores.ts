@@ -9,4 +9,12 @@ export const asesores: Asesor[] = [
     ratingPromedio: 0,
     totalResenas: 0,
   },
+    {
+    id: "delgado-gaby",
+    nombre: "Gabriela Delgado",
+    telefono: "523338095141",
+    email: "delgado.gaby@hotmail.com",
+    ratingPromedio: 0,
+    totalResenas: 0,
+  },
 ];

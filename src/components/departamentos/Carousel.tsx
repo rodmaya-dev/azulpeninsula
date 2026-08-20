@@ -48,7 +48,7 @@ export function Carousel({ imagenes, alt }: CarouselProps) {
         alt={`${alt} — foto ${index + 1} de ${total}`}
         fill
         sizes="(min-width: 1024px) 50vw, 100vw"
-        className="object-cover"
+        className="object-contain"
         priority={index === 0}
       />
 
