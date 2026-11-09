@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 
+import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH } from "@/lib/auth-policy";
 import { db } from "@/lib/db";
 
 export const auth = betterAuth({
@@ -11,8 +12,8 @@ export const auth = betterAuth({
     enabled: true,
     // Alta solo por invitación: el registro público queda cerrado.
     disableSignUp: true,
-    minPasswordLength: 12,
-    maxPasswordLength: 128,
+    minPasswordLength: PASSWORD_MIN_LENGTH,
+    maxPasswordLength: PASSWORD_MAX_LENGTH,
   },
 
   user: {
