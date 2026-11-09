@@ -10,9 +10,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ cuenta?: string }>;
+}) {
   const sesion = await obtenerSesion();
   if (sesion) redirect(RUTA_INICIAL[sesion.usuario.rol]);
+
+  const { cuenta } = await searchParams;
 
   return (
     <section className="bg-sand-light px-4 py-24 md:py-32">
@@ -21,6 +27,11 @@ export default async function LoginPage() {
         <p className="mt-2 mb-6 text-sm text-text-mid">
           Solo para el administrador y los asesores del fraccionamiento.
         </p>
+        {cuenta === "creada" && (
+          <p role="status" className="mb-6 text-sm text-green-700">
+            Tu cuenta quedó creada. Ya puedes iniciar sesión.
+          </p>
+        )}
         <LoginForm />
       </div>
     </section>
