@@ -36,15 +36,17 @@ export function LoginForm() {
             ? "Demasiados intentos. Espera un minuto e inténtalo de nuevo."
             : "Correo o contraseña incorrectos.",
         );
+        setEnviando(false);
         return;
       }
 
       const rol = rolSchema.safeParse(data?.user.role);
       router.replace(rol.success ? RUTA_INICIAL[rol.data] : "/");
       router.refresh();
+      // Con éxito el botón se queda en "Entrando…": la navegación sigue en
+      // curso y esta página se desmonta sola cuando termina.
     } catch {
       setMensaje("No se pudo iniciar sesión. Inténtalo de nuevo.");
-    } finally {
       setEnviando(false);
     }
   }
