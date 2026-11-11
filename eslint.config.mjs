@@ -12,7 +12,14 @@ const eslintConfig = defineConfig([
   },
   // Next.js 16 ya no corre lint en next build automáticamente —
   // el script "lint" de package.json es ahora el único punto de entrada.
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+  // src/generated: cliente de Prisma, código autogenerado que no se lintea.
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    "src/generated/**",
+  ]),
 ]);
 
 export default eslintConfig;
